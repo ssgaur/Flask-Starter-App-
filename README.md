@@ -1,2 +1,7 @@
-# flask-contact-book-app
-CRUD APIs and API testing For a Simple  Contact Book AP
+Flask API Module
+=========================
+
+How to build
+------------
+./flask-app-build
+This will build all python modules and package all required starup scripts in 

@@ -1,0 +1,19 @@
+# This is run (once) on system startup.
+
+[Unit]
+Description=Flask Application
+After=syslog.target network.target
+
+[Service]
+ExecStart=/opt/APP_DIR/my-flask-build.sh start &
+ExecStop=/opt/APP_DIR/my-flask-build.sh stop
+Restart=on-failure
+Type=forking
+UMask=077
+StandardOutput=null
+StandardError=null
+
+# systemd reads this section to put symlinks in the appropriate directory for
+# startup
+[Install]
+WantedBy=default.target

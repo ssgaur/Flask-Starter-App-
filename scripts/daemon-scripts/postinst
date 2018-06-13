@@ -1,0 +1,24 @@
+#!/bin/bash
+
+#post installation script
+INSTALL_DIR=/opt/APP_DIR
+
+py_package=$(ls /opt/APP_DIR/flask_app*.whl)
+if [ -z "$py_package" ]; then
+  echo "python package not found, aborting..."
+  exit -1
+fi
+
+echo
+echo "Installing $py_package"
+pip install -U -t $INSTALL_DIR $py_package
+
+echo "Reloading all services..."
+chmod 700 /opt/APP_DIR/app/app.py
+chmod 700 /opt/APP_DIR/my-flask-build.sh
+systemctl enable my-daemon
+systemctl daemon-reload
+echo "Status of service"
+service my-daemon start
+service my-daemon status
+exit 0

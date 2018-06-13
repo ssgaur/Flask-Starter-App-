@@ -1,0 +1,60 @@
+#!/bin/bash -e
+
+function package_pipi() {
+  /bin/rm -rf dist
+  python setup.py bdist_wheel
+  out=$(ls dist/flask_app*.whl)
+  echo
+  echo "Generated package $out"
+  echo "cleaning up staging area"
+  python setup.py clean
+}
+
+
+function package_deb() {
+  package_pipi
+  py_package=$(ls dist/flask_app*.whl)
+  STAGING=flask-app
+  MAJOR_VERION=$1
+  MINOR_VERSION=$2
+  rm -rf $STAGING/DEBIAN
+  mkdir -p $STAGING/DEBIAN
+  mkdir -p $STAGING/opt/APP_DIR
+  cp -r scripts/etc $STAGING
+  cp -r scripts/daemon-scripts/. $STAGING/opt/APP_DIR
+  
+  # chmod -R 775 "${INSTALL_DIR}/opt"
+  # mkdir -p /opt/APP_DIR
+  cat <<EOF >> ${STAGING}/DEBIAN/control
+Package: flask-app
+Version: ${MAJOR_VERION}-${MINOR_VERSION}
+Maintainer: Shailendra
+Architecture: all
+Description: Dummy Service
+Depends: python-pip
+EOF
+
+  cp $py_package $STAGING/opt/APP_DIR/
+  cp scripts/daemon-scripts/postinst $STAGING/DEBIAN
+
+  echo
+  echo "Building debian package..."
+  dpkg-deb --build flask-app
+  echo
+  echo "Done. built flask-app.deb"
+
+  /bin/rm -rf $STAGING
+  /bin/rm -rf dist
+  /bin/rm -rf build
+  /bin/rm -rf flask_app.egg-info
+}
+
+if [ $# -ne 2 ]
+then
+ echo 'Usage: ./flask-app-build <maj_ver_num> <min_ver_num>'
+ exit 1
+else
+  package_deb $1 $2
+  # TBD: Lintian check - Add when ready
+  dpkg-name flask-app.deb
+fi

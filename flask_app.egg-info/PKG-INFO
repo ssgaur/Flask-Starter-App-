@@ -1,0 +1,20 @@
+Metadata-Version: 1.1
+Name: flask-app
+Version: 1.0
+Summary: App Description
+Home-page: UNKNOWN
+Author: Shailendra
+Author-email: shailendra.singh.knp@gmail.com
+License: UNKNOWN
+Description: Flask API Module
+        =========================
+        
+        How to build
+        ------------
+        ./flask-app-build
+        This will build all python modules and package all required starup scripts in 
+        
+Keywords: App Keywords
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Programming Language :: Python :: 2.7
