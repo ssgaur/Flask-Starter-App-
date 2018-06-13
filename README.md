@@ -37,9 +37,9 @@ Request Body:
      ......
 }
 
-4. http://localhost:700/api/vi/user   [POST]
-5. http://localhost:700/api/vi/user   [PUT]
-6. http://localhost:700/api/vi/user   [DELETE]
+4. http://localhost:700/api/vi/contact   [POST]
+5. http://localhost:700/api/vi/contact   [PUT]
+6. http://localhost:700/api/vi/contact   [DELETE]
 
 
 Integration testing (Testing for Contact APIs  CREATE, PUT and Delete)
